@@ -1,0 +1,2480 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>International Market - Global Digital Subscriptions & Instant Access</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brandNavy: '#070A12',
+                        brandCard: '#101623',
+                        brandBorder: '#1E293B',
+                        brandCyan: '#06B6D4',
+                        brandCyanHover: '#0891B2',
+                        brandEmerald: '#10B981',
+                        brandGold: '#F59E0B'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Inter Font CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        @keyframes cartBadgePulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+            35% { transform: scale(1.35); box-shadow: 0 0 0 7px rgba(16,185,129,0.18); }
+            70% { transform: scale(0.92); box-shadow: 0 0 0 11px rgba(16,185,129,0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+        }
+        @keyframes cartButtonGlow {
+            0% { box-shadow: 0 0 0 rgba(6,182,212,0); }
+            40% { box-shadow: 0 0 24px rgba(6,182,212,0.45); }
+            100% { box-shadow: 0 0 0 rgba(6,182,212,0); }
+        }
+        @keyframes cartItemIn {
+            from { opacity: 0; transform: translateY(-7px) scale(0.985); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .cart-badge-pulse { animation: cartBadgePulse 700ms ease-out; }
+        .cart-button-glow { animation: cartButtonGlow 900ms ease-out; }
+        .cart-item-added { animation: cartItemIn 420ms ease-out both; }
+        .add-to-cart-added {
+            background: rgba(16,185,129,0.16) !important;
+            color: #34d399 !important;
+            border-color: rgba(16,185,129,0.55) !important;
+            box-shadow: 0 0 18px rgba(16,185,129,0.18);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #070A12;
+            color: #F8FAFC;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glow-cyan {
+            box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.35);
+        }
+        .glow-gold {
+            box-shadow: 0 0 20px -3px rgba(245, 158, 11, 0.3);
+        }
+        .glass-card {
+            background: rgba(16, 22, 35, 0.85);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-nav {
+            background: rgba(7, 10, 18, 0.88);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070A12;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06B6D4;
+        }
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    
+
+        /* Brand-specific service logo styling — presentation only */
+        .service-brand-logo {
+            position: relative;
+            width: 56px;
+            height: 56px;
+            flex: 0 0 56px;
+            border-radius: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,.14);
+            box-shadow: 0 10px 24px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.12);
+            transition: transform .3s ease, box-shadow .3s ease, filter .3s ease;
+        }
+        .group:hover .service-brand-logo { transform: translateY(-2px) scale(1.045); filter: saturate(1.08); }
+        .service-brand-logo::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(255,255,255,.18), transparent 38%, transparent 70%, rgba(255,255,255,.06));
+            pointer-events: none;
+        }
+        .service-brand-logo .brand-glyph {
+            position: relative;
+            z-index: 2;
+            line-height: 1;
+            font-weight: 900;
+            letter-spacing: -.04em;
+            text-shadow: 0 2px 10px rgba(0,0,0,.3);
+        }
+        .brand-chatgpt { background: linear-gradient(145deg,#0f766e,#0d9488); color:#fff; }
+        .brand-gemini { background: linear-gradient(145deg,#315ee8,#7c3aed); color:#fff; }
+        .brand-google { background: linear-gradient(145deg,#fff,#eef2ff); color:#4285f4; }
+        .brand-claude { background: linear-gradient(145deg,#d97757,#f0a080); color:#fff; }
+        .brand-grok { background: #050505; color:#fff; border-color:rgba(255,255,255,.28); }
+        .brand-netflix { background: linear-gradient(145deg,#b20710,#e50914); color:#fff; }
+        .brand-youtube { background: linear-gradient(145deg,#b91c1c,#ff0000); color:#fff; border-color:rgba(255,80,80,.55); }
+        .brand-spotify { background: linear-gradient(145deg,#0b8f45,#1ed760); color:#061b10; }
+        .brand-apple { background: linear-gradient(145deg,#111827,#374151); color:#fff; }
+        .brand-amazon { background: linear-gradient(145deg,#0b2a3f,#00a8e1); color:#fff; }
+        .brand-disney { background: linear-gradient(145deg,#071b5e,#2563eb); color:#fff; }
+        .brand-showmax { background: linear-gradient(145deg,#111827,#312e81); color:#fff; }
+        .brand-crunchyroll { background: linear-gradient(145deg,#f97316,#fbbf24); color:#111827; }
+        .brand-canva { background: linear-gradient(135deg,#00c4cc,#7d2ae8,#ff4f81); color:#fff; }
+        .brand-capcut { background: linear-gradient(145deg,#050505,#27272a); color:#fff; border-color:rgba(255,255,255,.3); }
+        .brand-adobe { background: linear-gradient(145deg,#b91c1c,#ef4444); color:#fff; }
+        .brand-figma { background: linear-gradient(145deg,#f24e1e,#a259ff); color:#fff; }
+        .brand-envato { background: linear-gradient(145deg,#087f3d,#21c66d); color:#fff; }
+        .brand-microsoft { background: linear-gradient(145deg,#0b5cab,#4aa3df); color:#fff; }
+        .brand-notion { background: linear-gradient(145deg,#111,#3f3f46); color:#fff; }
+        .brand-grammarly { background: linear-gradient(145deg,#07883f,#15a95a); color:#fff; }
+        .brand-linkedin { background: linear-gradient(145deg,#0a4f8f,#0a66c2); color:#fff; }
+        .brand-playstation { background: linear-gradient(145deg,#003791,#1474d4); color:#fff; }
+        .brand-xbox { background: linear-gradient(145deg,#107c10,#22c55e); color:#fff; }
+        .brand-duolingo { background: linear-gradient(145deg,#49a942,#78c850); color:#fff; }
+        .brand-coursera { background: linear-gradient(145deg,#0056d2,#2563eb); color:#fff; }
+        .brand-shopify { background: linear-gradient(145deg,#008060,#95bf47); color:#fff; }
+        .brand-kimi { background: linear-gradient(145deg,#5b21b6,#a855f7); color:#fff; }
+
+        /* Mobile-only responsiveness: keeps desktop layout unchanged */
+        @media (max-width: 640px) {
+            html, body {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            header .max-w-7xl > .flex {
+                min-width: 0;
+                height: 4.25rem;
+            }
+
+            header .max-w-7xl > .flex > .flex:first-child {
+                min-width: 0;
+                flex: 1 1 auto;
+            }
+
+            header .max-w-7xl > .flex > .flex:first-child > div:last-child {
+                min-width: 0;
+            }
+
+            header .max-w-7xl > .flex > .flex:first-child span:first-child {
+                display: block;
+                max-width: 155px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 0.9rem;
+            }
+
+            header .max-w-7xl > .flex > .flex:first-child span:last-child {
+                font-size: 0.55rem;
+            }
+
+            header .max-w-7xl > .flex > .flex:last-child {
+                flex: 0 0 auto;
+                gap: 0.35rem;
+            }
+
+            #currencySelect {
+                width: 4.65rem;
+                min-width: 4.65rem;
+                padding-left: 0.45rem;
+                padding-right: 1.25rem;
+                font-size: 0.68rem;
+            }
+
+            header button[aria-label="Open Cart"] {
+                padding-left: 0.55rem;
+                padding-right: 0.55rem;
+                gap: 0.3rem;
+            }
+
+            header button[aria-label="Open Cart"] > span:not(#cartBadge) {
+                font-size: 0.68rem;
+            }
+
+            .service-brand-logo {
+                width: 50px;
+                height: 50px;
+                flex-basis: 50px;
+                border-radius: 15px;
+            }
+
+            .cart-item-added {
+                min-width: 0;
+                gap: 0.65rem;
+            }
+
+            .cart-item-added > div:first-child {
+                min-width: 0;
+                flex: 1 1 auto;
+            }
+
+            .cart-item-added h4 {
+                overflow-wrap: anywhere;
+            }
+
+            #cartDrawer > .fixed.inset-y-0.right-0,
+            #aiCopilotDrawer > .fixed.inset-y-0.right-0 {
+                padding-left: 0;
+                width: 100%;
+            }
+
+            #cartDrawer > .fixed.inset-y-0.right-0 > div,
+            #aiCopilotDrawer > .fixed.inset-y-0.right-0 > div {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            #cartDrawer .p-5 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            #cartDrawer .cart-item-added {
+                padding: 0.75rem;
+            }
+
+            #cartDrawer .cart-item-added > div:last-child {
+                flex: 0 0 auto;
+            }
+
+            #checkoutModal,
+            #compareModal,
+            #trackOrderModal,
+            #giftCardModal {
+                padding: 0.65rem;
+            }
+
+            #checkoutModal > div.relative,
+            #compareModal > div.relative,
+            #trackOrderModal > div.relative,
+            #giftCardModal > div.relative {
+                max-height: 92vh;
+                overflow-y: auto;
+            }
+        }
+
+        @media (max-width: 380px) {
+            header .max-w-7xl {
+                padding-left: 0.65rem;
+                padding-right: 0.65rem;
+            }
+
+            header .max-w-7xl > .flex > .flex:first-child {
+                gap: 0.5rem;
+            }
+
+            header .max-w-7xl > .flex > .flex:first-child > div:first-child {
+                width: 34px;
+                height: 34px;
+                flex: 0 0 34px;
+            }
+
+            header .max-w-7xl > .flex > .flex:first-child > div:first-child i {
+                font-size: 0.95rem;
+            }
+
+            header .max-w-7xl > .flex > .flex:first-child span:first-child {
+                max-width: 112px;
+                font-size: 0.76rem;
+            }
+
+            #currencySelect {
+                width: 4.15rem;
+                min-width: 4.15rem;
+                font-size: 0.62rem;
+            }
+
+            header button[aria-label="Open Cart"] > span:not(#cartBadge) {
+                display: none;
+            }
+
+            header button[aria-label="Open Cart"] {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+
+            .service-brand-logo {
+                width: 46px;
+                height: 46px;
+                flex-basis: 46px;
+            }
+
+            main.max-w-7xl {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+        }
+
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brandCyan selection:text-black pb-16 md:pb-0">
+
+    <!-- Top Announcement Flash Sale Bar -->
+    <div class="bg-gradient-to-r from-cyan-950 via-slate-900 to-emerald-950 border-b border-brandCyan/20 text-xs py-2 px-4 text-center flex items-center justify-center gap-2 flex-wrap">
+        <span class="bg-brandGold text-gray-950 font-black px-2 py-0.5 rounded text-[10px] uppercase tracking-wider animate-pulse">
+            Flash Sale
+        </span>
+        <div class="inline-flex items-center gap-1 font-mono text-brandGold font-bold bg-black/40 px-2 py-0.5 rounded border border-brandGold/20">
+            <i class="fa-regular fa-clock text-[10px]"></i>
+            <span id="flashTimer">04:59:59</span>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="resetFilters()">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brandCyan via-teal-400 to-brandEmerald flex items-center justify-center shadow-lg shadow-brandCyan/20">
+                        <i class="fa-solid fa-globe text-gray-950 text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-lg sm:text-xl font-extrabold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-brandCyan">
+                            INTERNATIONAL
+                        </span>
+                        <span class="block text-[10px] sm:text-xs font-semibold tracking-widest text-brandCyan uppercase">MARKET</span>
+                    </div>
+                </div>
+
+                <!-- Search Bar Desktop -->
+                <div class="hidden md:flex flex-1 max-w-md mx-8">
+                    <div class="relative w-full">
+                        <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Search (ChatGPT, Netflix, Canva, CapCut)..." 
+                               class="w-full bg-slate-900/90 text-sm text-gray-200 rounded-xl pl-10 pr-4 py-2.5 border border-slate-800 focus:outline-none focus:border-brandCyan focus:ring-1 focus:ring-brandCyan transition">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-500 text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- Header Actions -->
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    
+                    <!-- Track Order Quick Button -->
+                    <button onclick="openTrackOrderModal()" class="hidden sm:flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-gray-300 px-3 py-2 rounded-xl text-xs font-medium transition">
+                        <i class="fa-solid fa-truck-fast text-brandCyan"></i>
+                        <span>Track Order</span>
+                    </button>
+
+                    <!-- AI Copilot Trigger Header Button -->
+                    <button onclick="toggleAiCopilot()" class="hidden lg:flex items-center gap-2 bg-gradient-to-r from-brandCyan/20 to-teal-500/20 hover:from-brandCyan/30 hover:to-teal-500/30 border border-brandCyan/40 text-brandCyan px-3 py-2 rounded-xl text-xs font-bold transition">
+                        <i class="fa-solid fa-sparkles text-brandGold animate-spin-slow"></i>
+                        <span>AI Advisor</span>
+                    </button>
+
+                    <!-- Currency Selector -->
+                    <div class="relative">
+                        <select id="currencySelect" onchange="changeCurrency(this.value)" class="bg-slate-900 border border-slate-800 text-xs sm:text-sm font-semibold text-brandCyan py-2 px-2.5 sm:px-3 pr-6 sm:pr-7 rounded-xl focus:outline-none focus:border-brandCyan cursor-pointer appearance-none">
+                            <option value="USD">🇺🇸 USD ($)</option>
+                            <option value="BDT">🇧🇩 BDT (৳)</option>
+                            <option value="EUR">🇪🇺 EUR (€)</option>
+                            <option value="GBP">🇬🇧 GBP (£)</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-2.5 top-3 text-[10px] text-brandCyan pointer-events-none"></i>
+                    </div>
+
+                    <!-- Cart Button -->
+                    <button onclick="toggleCartDrawer()" aria-label="Open Cart" class="relative px-3 py-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-gray-200 transition flex items-center gap-2">
+                        <i class="fa-solid fa-bag-shopping text-lg text-brandCyan"></i>
+                        <span class="text-xs font-bold text-white">Cart</span>
+                        <span id="cartBadge" class="absolute -top-1.5 -right-1.5 bg-brandEmerald text-gray-950 text-xs font-black min-w-5 h-5 px-1 rounded-full flex items-center justify-center hidden">
+                            0
+                        </span>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- Mobile Search Bar -->
+            <div class="md:hidden pb-3">
+                <div class="relative w-full">
+                    <input type="text" id="mobileSearchInput" onkeyup="syncMobileSearch()" placeholder="Search subscriptions..." 
+                           class="w-full bg-slate-900 text-sm text-gray-200 rounded-xl pl-10 pr-4 py-2 border border-slate-800 focus:outline-none focus:border-brandCyan">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-gray-500 text-sm"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner Section -->
+    <section class="relative overflow-hidden py-8 sm:py-12 lg:py-14 bg-gradient-to-b from-brandNavy via-slate-950 to-brandNavy border-b border-slate-800/60">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#06B6D4_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-brandCyan/30 text-brandCyan text-xs font-medium mb-5 shadow-inner">
+                <span class="w-2 h-2 rounded-full bg-brandEmerald animate-ping"></span>
+                <span>Wholesale & Lowest Reseller Market Rates Active</span>
+            </div>
+
+            <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white mb-4 leading-tight">
+                Global Premium Digital Subscriptions <br class="hidden sm:inline">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-brandCyan via-teal-300 to-brandEmerald">
+                    Instant Delivery & Wholesale Rates
+                </span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-xs sm:text-sm text-gray-400 mb-6 leading-relaxed px-2">
+                Get instant 24/7 delivery on AI tools, streaming, productivity apps, design suites, and reseller licenses with 100% replacement warranty.
+            </p>
+
+            <!-- Gemini AI Interactive Quick Actions -->
+            <div class="flex items-center justify-center flex-wrap gap-2.5 mb-8">
+                <button onclick="toggleAiCopilot()" class="bg-gradient-to-r from-brandCyan to-brandEmerald text-gray-950 font-extrabold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-lg shadow-brandCyan/20 hover:scale-105 transition flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Ask AI Advisor</span>
+                </button>
+                <button onclick="openCompareModal()" class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-gray-200 font-semibold px-3.5 py-2.5 rounded-xl text-xs sm:text-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-code-compare text-brandCyan"></i>
+                    <span>AI Comparison</span>
+                </button>
+                <button onclick="openGiftCardModal()" class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-gray-200 font-semibold px-3.5 py-2.5 rounded-xl text-xs sm:text-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-gift text-brandGold"></i>
+                    <span>VIP Gift Card</span>
+                </button>
+            </div>
+
+            <!-- Global Trust Badges Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto text-left">
+                <div class="glass-card p-3 rounded-xl border border-slate-800/80 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-brandGold/10 text-brandGold flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-white">Instant Dispatch</div>
+                        <div class="text-[10px] text-gray-400">Automated key delivery</div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-3 rounded-xl border border-slate-800/80 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-brandEmerald/10 text-brandEmerald flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-white">100% Warranty</div>
+                        <div class="text-[10px] text-gray-400">Full replacement cover</div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-3 rounded-xl border border-slate-800/80 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-brandCyan/10 text-brandCyan flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-white">Crypto Payments</div>
+                        <div class="text-[10px] text-gray-400">USDT BEP20, USDT TRC20, LTC</div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-3 rounded-xl border border-slate-800/80 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-white">24/7 Live Support</div>
+                        <div class="text-[10px] text-gray-400">Dedicated assistance</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        
+        <!-- Category & Sort Controls Header -->
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
+            
+            <!-- Category Scroll Tabs -->
+            <div class="flex items-center space-x-2 overflow-x-auto pb-2 w-full md:w-auto scrollbar-none">
+                <button onclick="filterCategory('All', this)" class="category-btn active bg-brandCyan text-gray-950 font-extrabold px-3.5 py-2 rounded-xl text-xs transition whitespace-nowrap shadow-md">
+                    All Products
+                </button>
+                <button onclick="filterCategory('AI Tools', this)" class="category-btn bg-slate-900 text-gray-300 hover:text-white hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-xl text-xs transition whitespace-nowrap">
+                    <i class="fa-solid fa-brain mr-1.5 text-brandCyan"></i> AI Tools
+                </button>
+                <button onclick="filterCategory('Streaming', this)" class="category-btn bg-slate-900 text-gray-300 hover:text-white hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-xl text-xs transition whitespace-nowrap">
+                    <i class="fa-solid fa-tv mr-1.5 text-red-500"></i> Streaming
+                </button>
+                <button onclick="filterCategory('Productivity', this)" class="category-btn bg-slate-900 text-gray-300 hover:text-white hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-xl text-xs transition whitespace-nowrap">
+                    <i class="fa-solid fa-briefcase mr-1.5 text-emerald-400"></i> Productivity
+                </button>
+                <button onclick="filterCategory('Design', this)" class="category-btn bg-slate-900 text-gray-300 hover:text-white hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-xl text-xs transition whitespace-nowrap">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-1.5 text-brandGold"></i> Design & Video
+                </button>
+                <button onclick="filterCategory('Gaming', this)" class="category-btn bg-slate-900 text-gray-300 hover:text-white hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-xl text-xs transition whitespace-nowrap">
+                    <i class="fa-solid fa-gamepad mr-1.5 text-purple-400"></i> Gaming
+                </button>
+                <button onclick="filterCategory('Education', this)" class="category-btn bg-slate-900 text-gray-300 hover:text-white hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-xl text-xs transition whitespace-nowrap">
+                    <i class="fa-solid fa-graduation-cap mr-1.5 text-sky-400"></i> Education
+                </button>
+            </div>
+
+            <!-- Sorting & Count Bar -->
+            <div class="flex items-center justify-between w-full md:w-auto gap-3 text-xs">
+                <span class="text-gray-400 whitespace-nowrap"><strong id="productCount" class="text-brandCyan">0</strong> Products</span>
+                
+                <div class="flex items-center gap-2">
+                    <span class="text-gray-400 hidden sm:inline">Sort:</span>
+                    <select id="sortSelect" onchange="sortProducts(this.value)" class="bg-slate-900 border border-slate-800 text-xs text-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:border-brandCyan cursor-pointer">
+                        <option value="featured">Featured / Best Sellers</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="name-asc">Name: A to Z</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Product Cards Grid -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- JavaScript dynamically renders items here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-16">
+            <i class="fa-solid fa-box-open text-5xl text-gray-600 mb-4"></i>
+            <h3 class="text-base font-bold text-gray-300">No subscriptions found</h3>
+            <p class="text-xs text-gray-500 mt-1">Try adjusting your search terms or filter selection.</p>
+        </div>
+
+        <!-- Reseller Wholesale Banner Section -->
+        <section class="mt-16 bg-gradient-to-r from-slate-900 via-brandCard to-slate-900 border border-brandCyan/30 rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
+            <div class="absolute right-0 top-0 opacity-10 text-brandCyan text-9xl pointer-events-none transform translate-x-10 -translate-y-10">
+                <i class="fa-solid fa-handshake"></i>
+            </div>
+            
+            <div class="relative z-10 max-w-2xl">
+                <span class="bg-brandEmerald/20 text-brandEmerald text-[10px] font-extrabold px-3 py-1 rounded-full border border-brandEmerald/30 uppercase tracking-widest inline-block mb-3">
+                    Bulk Partner Network
+                </span>
+                <h3 class="text-xl sm:text-2xl font-black text-white mb-2">Are you a Reseller or Agency?</h3>
+                <p class="text-xs sm:text-sm text-gray-300 leading-relaxed mb-6">
+                    Join our wholesale partner program. Get automated API access for instant key provisioning, bulk discounts up to 35% extra off, and dedicated 24/7 Telegram account manager.
+                </p>
+                <div class="flex items-center gap-3 flex-wrap">
+                    <button onclick="showToast('Reseller registration form sent to Telegram support!')" class="bg-brandCyan hover:bg-brandCyanHover text-gray-950 font-black px-5 py-2.5 rounded-xl text-xs transition shadow-lg">
+                        Apply for Wholesale Portal
+                    </button>
+                    <a href="https://t.me" target="_blank" class="bg-slate-900 border border-slate-700 text-gray-200 hover:text-white px-4 py-2.5 rounded-xl text-xs transition flex items-center gap-2">
+                        <i class="fa-brands fa-telegram text-sky-400 text-sm"></i> Telegram Reseller Desk
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Accordion Section -->
+        <section class="mt-16">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-extrabold text-white">Frequently Asked Questions</h2>
+                <p class="text-xs text-gray-400 mt-1">Everything you need to know about our digital delivery & guarantee.</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto space-y-3">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="w-full p-4 text-left font-bold text-xs sm:text-sm text-white flex justify-between items-center">
+                        <span>How fast will I receive my subscription details?</span>
+                        <i class="fa-solid fa-chevron-down text-brandCyan text-xs transition-transform duration-200"></i>
+                    </button>
+                    <div class="px-4 pb-4 text-xs text-gray-400 hidden leading-relaxed border-t border-slate-800/60 pt-3">
+                        All orders are processed through automated dispatch. You will receive login details, activation keys, or invite links directly on your email within 1 to 5 minutes after payment confirmation.
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="w-full p-4 text-left font-bold text-xs sm:text-sm text-white flex justify-between items-center">
+                        <span>Is there a warranty if an account stops working?</span>
+                        <i class="fa-solid fa-chevron-down text-brandCyan text-xs transition-transform duration-200"></i>
+                    </button>
+                    <div class="px-4 pb-4 text-xs text-gray-400 hidden leading-relaxed border-t border-slate-800/60 pt-3">
+                        Yes! Every single plan includes full replacement warranty for the entire duration purchased. If you encounter any issue, simply open a ticket or contact 24/7 support for immediate key replacement.
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="w-full p-4 text-left font-bold text-xs sm:text-sm text-white flex justify-between items-center">
+                        <span>Which payment methods are supported globally?</span>
+                        <i class="fa-solid fa-chevron-down text-brandCyan text-xs transition-transform duration-200"></i>
+                    </button>
+                    <div class="px-4 pb-4 text-xs text-gray-400 hidden leading-relaxed border-t border-slate-800/60 pt-3">
+                        We accept crypto payments via USDT BEP20, USDT TRC20, LTC, and Binance Pay for eligible $1 orders.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews / Social Proof -->
+        <section class="mt-16 border-t border-slate-800/80 pt-12">
+            <div class="text-center mb-8">
+                <div class="flex items-center justify-center gap-1 text-brandGold text-sm mb-1">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h2 class="text-xl font-extrabold text-white">Trusted by 45,000+ Users & Resellers Worldwide</h2>
+                <p class="text-xs text-gray-400 mt-1">4.9/5 average customer rating across 120+ countries.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-xs">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-bold text-white">Rafiqul I. (Dhaka)</span>
+                        <span class="text-[10px] text-brandEmerald bg-brandEmerald/10 px-2 py-0.5 rounded">Verified Purchase</span>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed">"Got ChatGPT Plus and Gemini Pro combo quickly via crypto payment! Working smoothly for coding."</p>
+                </div>
+
+                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-xs">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-bold text-white">Alexander M. (Germany)</span>
+                        <span class="text-[10px] text-brandEmerald bg-brandEmerald/10 px-2 py-0.5 rounded">Verified Purchase</span>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed">"Cheapest Canva Pro & Adobe CC rates on the web. Been using as a wholesale reseller for 6 months."</p>
+                </div>
+
+                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-xs">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-bold text-white">Sarah T. (UK)</span>
+                        <span class="text-[10px] text-brandEmerald bg-brandEmerald/10 px-2 py-0.5 rounded">Verified Purchase</span>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed">"Instant support on Telegram when I had a question about Netflix setup. Highly recommended!"</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <div class="fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 border-t border-slate-800 backdrop-blur-md md:hidden flex items-center justify-around py-2.5 px-2">
+        <button onclick="resetFilters()" class="flex flex-col items-center gap-1 text-brandCyan">
+            <i class="fa-solid fa-store text-base"></i>
+            <span class="text-[10px] font-bold">Shop</span>
+        </button>
+        <button onclick="toggleAiCopilot()" class="flex flex-col items-center gap-1 text-gray-400 hover:text-brandCyan">
+            <i class="fa-solid fa-sparkles text-base text-brandGold"></i>
+            <span class="text-[10px] font-medium">AI Advisor</span>
+        </button>
+        <button onclick="openTrackOrderModal()" class="flex flex-col items-center gap-1 text-gray-400 hover:text-brandCyan">
+            <i class="fa-solid fa-truck-fast text-base"></i>
+            <span class="text-[10px] font-medium">Track Order</span>
+        </button>
+        <button onclick="toggleCartDrawer()" class="flex flex-col items-center gap-1 text-gray-400 hover:text-brandCyan relative">
+            <i class="fa-solid fa-bag-shopping text-base"></i>
+            <span class="text-[10px] font-medium">Cart</span>
+            <span id="mobileCartBadge" class="absolute -top-1 -right-1 bg-brandEmerald text-gray-950 text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden">
+                0
+            </span>
+        </button>
+    </div>
+
+    <!-- Floating AI Copilot Desktop Button -->
+    <div class="hidden md:block fixed bottom-6 left-6 z-40">
+        <button onclick="toggleAiCopilot()" class="group relative bg-gradient-to-r from-brandCyan to-teal-400 text-gray-950 p-3.5 rounded-full shadow-2xl hover:scale-110 transition duration-300 flex items-center gap-2 glow-cyan">
+            <i class="fa-solid fa-robot text-xl"></i>
+            <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 text-xs font-black">AI Advisor</span>
+            <span class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-brandGold border-2 border-brandNavy animate-ping"></span>
+        </button>
+    </div>
+
+    <!-- AI Copilot Chat Drawer -->
+    <div id="aiCopilotDrawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="toggleAiCopilot()"></div>
+        
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-6 sm:pl-10">
+            <div class="w-screen max-w-lg bg-brandCard border-l border-slate-800 flex flex-col justify-between shadow-2xl">
+                
+                <!-- Drawer Header -->
+                <div class="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brandCyan to-brandEmerald flex items-center justify-center text-gray-950 font-black">
+                            <i class="fa-solid fa-brain text-lg"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                                Gemini AI Advisor
+                                <span class="bg-brandCyan/20 text-brandCyan text-[10px] font-bold px-2 py-0.5 rounded-full">Live</span>
+                            </h2>
+                            <p class="text-[10px] sm:text-[11px] text-gray-400">Smart bundle matching & workflow recommendations</p>
+                        </div>
+                    </div>
+                    <button onclick="toggleAiCopilot()" class="text-gray-400 hover:text-white p-2">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Chat Messages Container -->
+                <div id="aiChatContainer" class="p-4 sm:p-5 flex-grow overflow-y-auto space-y-4">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-xs text-gray-300 leading-relaxed">
+                        <div class="flex items-center gap-2 text-brandCyan font-bold mb-1">
+                            <i class="fa-solid fa-robot"></i> AI Copilot
+                        </div>
+                        Hello! 👋 I'm your Gemini AI Subscription Advisor. Tell me about your budget or workflow (e.g. <i>"I need AI coding tools under $10"</i> or <i>"Best streaming package for sports"</i>), and I'll find or bundle the best subscriptions for you!
+                    </div>
+                </div>
+
+                <!-- Suggested Quick Prompts -->
+                <div class="px-4 py-2 flex items-center gap-2 overflow-x-auto scrollbar-none border-t border-slate-800/60 bg-slate-900/40">
+                    <button onclick="sendQuickPrompt('Suggest a student bundle under $10')" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-gray-300 px-2.5 py-1 rounded-lg border border-slate-700 whitespace-nowrap">
+                        💡 Student Bundle &lt;$10
+                    </button>
+                    <button onclick="sendQuickPrompt('Best AI tools for video creators')" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-gray-300 px-2.5 py-1 rounded-lg border border-slate-700 whitespace-nowrap">
+                        🎬 Video Creators
+                    </button>
+                    <button onclick="sendQuickPrompt('Compare ChatGPT Plus vs Claude Pro')" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-gray-300 px-2.5 py-1 rounded-lg border border-slate-700 whitespace-nowrap">
+                        🤖 ChatGPT vs Claude
+                    </button>
+                </div>
+
+                <!-- Input Footer -->
+                <div class="p-4 border-t border-slate-800 bg-slate-950">
+                    <form onsubmit="handleAiChatSubmit(event)" class="flex items-center gap-2">
+                        <input type="text" id="aiChatInput" placeholder="Ask AI advisor anything..." 
+                               class="flex-1 bg-slate-900 border border-slate-800 text-xs text-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-brandCyan">
+                        <button type="submit" id="aiSendBtn" class="bg-brandCyan hover:bg-brandCyanHover text-gray-950 font-bold px-4 py-3 rounded-xl transition text-xs flex items-center justify-center">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Product Comparison Modal -->
+    <div id="compareModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeCompareModal()"></div>
+        
+        <div class="relative bg-brandCard border border-slate-800 rounded-2xl max-w-2xl w-full p-5 sm:p-6 overflow-hidden shadow-2xl z-10 max-h-[90vh] flex flex-col">
+            <button onclick="closeCompareModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center mb-4">
+                <div class="w-10 h-10 rounded-full bg-brandCyan/10 border border-brandCyan/30 text-brandCyan flex items-center justify-center mx-auto mb-2 text-lg">
+                    <i class="fa-solid fa-code-compare"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl font-extrabold text-white">Gemini AI Subscription Comparison</h3>
+                <p class="text-xs text-gray-400 mt-1">Select two products to generate an instant deep feature comparison.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Product A</label>
+                    <select id="compareProductA" class="w-full bg-slate-900 border border-slate-800 text-xs text-gray-200 rounded-xl p-2.5 focus:outline-none focus:border-brandCyan">
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Product B</label>
+                    <select id="compareProductB" class="w-full bg-slate-900 border border-slate-800 text-xs text-gray-200 rounded-xl p-2.5 focus:outline-none focus:border-brandCyan">
+                    </select>
+                </div>
+            </div>
+
+            <button onclick="runAiComparison()" id="btnRunCompare" class="w-full bg-gradient-to-r from-brandCyan to-teal-400 text-gray-950 font-black py-2.5 sm:py-3 rounded-xl shadow-lg transition text-xs mb-4">
+                Generate AI Comparison Analysis
+            </button>
+
+            <div id="compareResultContainer" class="flex-1 overflow-y-auto bg-slate-950 border border-slate-800/80 rounded-xl p-4 text-xs text-gray-300 min-h-[150px]">
+                <div class="text-center text-gray-500 py-8">
+                    <i class="fa-solid fa-chart-simple text-3xl mb-2"></i>
+                    <p>Select products and click generate to view detailed AI analysis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Track Order Modal -->
+    <div id="trackOrderModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeTrackOrderModal()"></div>
+        
+        <div class="relative bg-brandCard border border-slate-800 rounded-2xl max-w-md w-full p-6 overflow-hidden shadow-2xl z-10">
+            <button onclick="closeTrackOrderModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center mb-5">
+                <div class="w-10 h-10 rounded-full bg-brandCyan/10 border border-brandCyan/30 text-brandCyan flex items-center justify-center mx-auto mb-2 text-lg">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+                <h3 class="text-xl font-extrabold text-white">Track Instant Key Status</h3>
+                <p class="text-xs text-gray-400 mt-1">Enter your purchase email or Order ID to check activation key dispatch.</p>
+            </div>
+
+            <div class="space-y-3 mb-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Order ID or Delivery Email</label>
+                    <input type="text" id="trackInput" placeholder="e.g. ORD-98213 or name@domain.com" class="w-full bg-slate-900 border border-slate-800 text-xs text-gray-200 rounded-xl p-3 focus:outline-none focus:border-brandCyan">
+                </div>
+            </div>
+
+            <button onclick="performOrderLookup()" class="w-full bg-brandCyan hover:bg-brandCyanHover text-gray-950 font-black py-3 rounded-xl shadow-lg transition text-xs mb-4">
+                Lookup Status
+            </button>
+
+            <div id="trackResult" class="hidden bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-gray-300">
+            </div>
+        </div>
+    </div>
+
+    <!-- AI VIP Gift Card Modal -->
+    <div id="giftCardModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeGiftCardModal()"></div>
+        
+        <div class="relative bg-brandCard border border-slate-800 rounded-2xl max-w-md w-full p-6 overflow-hidden shadow-2xl z-10">
+            <button onclick="closeGiftCardModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center mb-4">
+                <div class="w-10 h-10 rounded-full bg-brandGold/10 border border-brandGold/30 text-brandGold flex items-center justify-center mx-auto mb-2 text-lg">
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+                <h3 class="text-xl font-extrabold text-white">AI VIP Subscription Gift Card</h3>
+                <p class="text-xs text-gray-400 mt-1">Generate a custom branded digital voucher card using Gemini Image API.</p>
+            </div>
+
+            <div class="space-y-3 mb-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Gift Card Theme</label>
+                    <input type="text" id="giftTheme" placeholder="e.g. Gold Cyberpunk ChatGPT Pass" class="w-full bg-slate-900 border border-slate-800 text-xs text-gray-200 rounded-xl p-3 focus:outline-none focus:border-brandCyan">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Recipient Name / Message</label>
+                    <input type="text" id="giftMessage" placeholder="e.g. Happy Birthday Alex!" class="w-full bg-slate-900 border border-slate-800 text-xs text-gray-200 rounded-xl p-3 focus:outline-none focus:border-brandCyan">
+                </div>
+            </div>
+
+            <button onclick="generateAiGiftCard()" id="btnGenerateGift" class="w-full bg-gradient-to-r from-brandGold to-amber-500 text-gray-950 font-black py-3 rounded-xl shadow-lg transition text-xs mb-4">
+                🎨 Generate AI Gift Card
+            </button>
+
+            <div id="giftCardPreview" class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-center min-h-[160px] flex items-center justify-center relative">
+                <span class="text-xs text-gray-500">Your generated AI voucher card will appear here.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Drawer -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="toggleCartDrawer()"></div>
+        
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-6 sm:pl-10">
+            <div class="w-screen max-w-md bg-brandCard border-l border-slate-800 flex flex-col justify-between shadow-2xl">
+                
+                <!-- Drawer Header -->
+                <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-bag-shopping text-brandCyan text-xl"></i>
+                        <h2 class="text-base font-bold text-white">Your Shopping Cart <span id="cartHeaderCount" class="ml-1.5 inline-flex items-center justify-center min-w-[24px] h-5 px-1.5 rounded-full bg-brandCyan/15 border border-brandCyan/30 text-brandCyan text-[10px] font-black">0</span></h2>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="text-gray-400 hover:text-white p-2">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Drawer Items List -->
+                <div id="cartItemsContainer" class="p-5 flex-grow overflow-y-auto space-y-3">
+                </div>
+
+                <!-- Drawer Footer & Order Summary -->
+                <div class="p-5 border-t border-slate-800 bg-slate-950">
+
+                    <div id="cartPaymentGuide" class="mb-4 rounded-xl border border-brandCyan/15 bg-brandCyan/5 p-3">
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <i class="fa-solid fa-shield-halved text-brandCyan text-xs"></i>
+                            <span class="text-[10px] font-black uppercase tracking-wider text-brandCyan">Payment Guide</span>
+                        </div>
+                        <p id="cartPaymentGuideText" class="text-[10px] leading-relaxed text-gray-400">Add a subscription to see your exact payable amount. Then choose the available payment method at secure checkout.</p>
+                    </div>
+
+                    <div class="space-y-2 mb-4 text-xs">
+                        <div class="flex justify-between text-gray-400">
+                            <span>Subtotal</span>
+                            <span id="cartSubtotal" class="font-medium text-gray-200">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-gray-400">
+                            <span>Instant Automated Delivery</span>
+                            <span class="text-brandEmerald font-bold">FREE</span>
+                        </div>
+                        <div class="flex justify-between text-sm sm:text-base font-extrabold text-white pt-2 border-t border-slate-800">
+                            <span>Payable Total</span>
+                            <span id="cartTotal" class="text-brandCyan text-lg sm:text-xl">$0.00</span>
+                        </div>
+                    </div>
+
+                    <button id="checkoutBtn" onclick="openCheckoutModal()" disabled class="w-full bg-brandCyan hover:bg-brandCyanHover disabled:bg-slate-800 disabled:text-gray-600 text-gray-950 font-extrabold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs sm:text-sm">
+                        <span>Proceed to Secure Checkout</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+        
+        <div class="relative bg-brandCard border border-slate-800 rounded-2xl max-w-lg w-full p-5 sm:p-7 overflow-hidden shadow-2xl z-10 max-h-[90vh] overflow-y-auto">
+            <button id="checkoutCloseBtn" onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-gray-500 cursor-not-allowed" title="Complete payment submission before closing" disabled>
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center mb-5">
+                <div class="w-10 h-10 rounded-full bg-brandCyan/10 border border-brandCyan/30 text-brandCyan flex items-center justify-center mx-auto mb-2 text-lg">
+                    <i class="fa-solid fa-shield-check"></i>
+                </div>
+                <h3 class="text-xl font-extrabold text-white">Global Express Checkout</h3>
+                <p class="text-xs text-gray-400 mt-1">Select payment method for 24/7 automated instant key dispatch.</p>
+            </div>
+
+            <!-- Gateway Payment Session -->
+            <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-brandCyan/20 rounded-2xl p-4 mb-5">
+                <div class="flex items-center justify-between gap-3 mb-3">
+                    <div>
+                        <div class="text-[9px] uppercase tracking-[0.2em] text-brandCyan font-black">Payment Session</div>
+                        <div class="text-[10px] text-gray-500 mt-1">Complete your payment before this session expires.</div>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <div class="text-[9px] uppercase tracking-widest text-gray-500">Expires in</div>
+                        <div id="paymentCountdown" class="text-lg font-black text-brandGold tabular-nums">30:00</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="bg-black/20 rounded-xl p-2.5 border border-slate-800">
+                        <div class="text-[9px] text-gray-500 uppercase tracking-wider">Payable Total</div>
+                        <div id="checkoutTotal" class="text-lg font-black text-brandCyan mt-0.5">$0.00</div>
+                    </div>
+                    <div class="bg-black/20 rounded-xl p-2.5 border border-slate-800">
+                        <div class="text-[9px] text-gray-500 uppercase tracking-wider">Session ID</div>
+                        <div id="paymentSessionId" class="text-[10px] font-bold text-white mt-1 break-all">Creating...</div>
+                    </div>
+                </div>
+                <div id="paymentSessionStatus" class="mt-2.5 text-[10px] text-brandEmerald flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-check"></i> Payment session active
+                </div>
+            </div>
+
+            <!-- Crypto-Only Payment -->
+            <div class="mb-5">
+                <div class="flex items-center justify-between gap-3 mb-3">
+                    <div>
+                        <div class="text-xs font-black uppercase tracking-widest text-brandCyan">Crypto Payment</div>
+                        <p class="text-[10px] text-gray-500 mt-0.5">Choose a supported network below.</p>
+                    </div>
+                    <span class="text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded-full bg-brandEmerald/10 border border-brandEmerald/30 text-brandEmerald">Crypto Only</span>
+                </div>
+
+                <div class="space-y-3.5">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Select Payment Channel</label>
+                        <select id="cryptoSelect" onchange="updateCryptoPaymentDetails()" class="w-full bg-slate-900 border border-slate-800 text-xs text-gray-200 rounded-xl p-3 focus:outline-none focus:border-brandCyan">
+                            <option value="BEP20">USDT — BEP20</option>
+                            <option value="TRC20">USDT — TRC20</option>
+                            <option value="LTC">Litecoin — LTC</option>
+                            <option value="BINANCE_PAY">Binance Pay — $1–$5 orders</option>
+                        </select>
+                    </div>
+
+                    <div id="cryptoPaymentDetails" class="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
+                        <div class="mb-3 bg-brandCyan/5 border border-brandCyan/20 rounded-xl p-2.5 text-[10px] text-gray-300 flex items-start gap-2">
+                            <i class="fa-solid fa-lock text-brandCyan mt-0.5"></i>
+                            <span>This payment session is valid for <strong class="text-white">30 minutes</strong>. Send the required amount only to the selected network/address.</span>
+                        </div>
+                        <div class="flex items-center justify-between gap-3 mb-2">
+                            <div>
+                                <div id="cryptoPaymentTitle" class="text-xs font-black text-white">USDT — BEP20</div>
+                                <div id="cryptoPaymentHint" class="text-[10px] text-gray-500 mt-0.5">Send payment to this BEP20 address.</div>
+                            </div>
+                            <button type="button" onclick="copySelectedPaymentAddress()" class="shrink-0 bg-slate-950 hover:bg-brandCyan hover:text-gray-950 border border-slate-700 text-gray-300 text-[10px] font-bold px-2.5 py-1.5 rounded-lg transition">
+                                <i class="fa-regular fa-copy mr-1"></i>Copy
+                            </button>
+                        </div>
+                        <div id="cryptoPaymentAddress" class="bg-slate-950 border border-slate-800 rounded-lg p-2.5 font-mono text-[10px] text-brandGold break-all select-all">
+                            0x314fac729ebcc84f304ed3b128b8d19415a6acfc
+                        </div>
+                        <div id="binancePayNotice" class="hidden mt-2 text-[10px] text-brandGold bg-brandGold/5 border border-brandGold/20 rounded-lg p-2">
+                            Binance Pay is available for orders totaling $1.00–$5.00. Orders above $5 must use a crypto address.
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Your Delivery Email</label>
+                        <input type="email" id="cryptoEmail" placeholder="your-email@domain.com" class="w-full bg-slate-900 border border-slate-800 text-xs text-gray-200 rounded-xl p-3 focus:outline-none focus:border-brandCyan">
+                    </div>
+
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-[11px] text-gray-400 flex items-start gap-2">
+                        <i class="fa-solid fa-circle-info text-brandCyan text-sm mt-0.5"></i>
+                        <span>After sending the exact payable amount, keep your transaction ID/payment proof for order verification.</span>
+                    </div>
+
+                    <button id="submitCryptoOrderBtn" onclick="processOrder('Crypto')" class="w-full bg-gradient-to-r from-brandCyan to-brandEmerald text-gray-950 font-black py-3 rounded-xl shadow-lg transition text-xs">
+                        <i class="fa-solid fa-lock mr-1"></i> I Have Paid — Submit for Confirmation
+                    </button>
+                    <div id="merchantConfirmationPanel" class="hidden mt-3 bg-brandGold/5 border border-brandGold/20 rounded-xl p-3">
+                        <div class="text-[10px] text-brandGold font-bold uppercase tracking-wider">Payment verification</div>
+                        <p class="text-[10px] text-gray-400 mt-1">Payment proof has been submitted. Keep this session open until the merchant confirms the payment.</p>
+                        <button type="button" onclick="merchantConfirmPayment()" class="mt-2 w-full bg-brandGold text-gray-950 font-black py-2.5 rounded-lg text-[10px]">
+                            <i class="fa-solid fa-circle-check mr-1"></i> Merchant: Confirm Payment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Social Proof Sales Alert Toast -->
+    <div id="socialProofToast" class="fixed bottom-16 md:bottom-6 left-4 z-40 bg-slate-900/95 border border-brandCyan/40 text-white p-3 rounded-xl shadow-2xl flex items-center gap-3 max-w-xs transform -translate-x-full opacity-0 transition-all duration-500 pointer-events-none">
+        <div class="w-8 h-8 rounded-full bg-brandCyan/20 text-brandCyan flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-bag-shopping text-xs"></i>
+        </div>
+        <div class="text-[11px] leading-tight">
+            <div id="socialProofTitle" class="font-bold text-white">Someone from USA</div>
+            <div id="socialProofMsg" class="text-gray-400">Purchased ChatGPT Plus (1m ago)</div>
+        </div>
+    </div>
+
+    <!-- General Toast Notification -->
+    <div id="toast" class="fixed bottom-16 md:bottom-6 right-4 sm:right-6 z-50 bg-slate-900 border border-brandCyan text-white text-xs sm:text-sm font-semibold px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <i class="fa-solid fa-circle-check text-brandEmerald text-base"></i>
+        <span id="toastMessage">Item added to cart</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800/80 mt-16 text-xs text-gray-500 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+                <div class="flex items-center space-x-2 mb-3">
+                    <div class="w-7 h-7 rounded-lg bg-brandCyan flex items-center justify-center text-gray-950 font-bold">
+                        <i class="fa-solid fa-globe text-xs"></i>
+                    </div>
+                    <span class="text-sm font-black text-white tracking-wider">INTERNATIONAL MARKET</span>
+                </div>
+                <p class="text-gray-400 leading-relaxed">
+                    Leading global digital marketplace for instant software licenses, AI tools, and streaming subscriptions with guaranteed wholesale rates.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-3">Accepted Payment Channels</h4>
+                <div class="flex flex-wrap gap-2 text-gray-300 text-xs">
+                    <span class="bg-slate-900 px-2.5 py-1.5 rounded border border-slate-800 font-bold" title="USDT BEP20">USDT BEP20</span>
+                    <span class="bg-slate-900 px-2.5 py-1.5 rounded border border-slate-800 font-bold" title="USDT TRC20">USDT TRC20</span>
+                    <span class="bg-slate-900 px-2.5 py-1.5 rounded border border-slate-800 font-bold" title="Litecoin">LTC</span>
+                    <span class="bg-slate-900 px-2.5 py-1.5 rounded border border-brandGold/30 text-brandGold font-bold" title="Binance Pay for $1 orders">Binance Pay · $1</span>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-3">24/7 Global Assistance</h4>
+                <p class="text-gray-400 mb-2">Need custom plans or bulk orders?</p>
+                <div class="inline-flex items-center gap-2 text-brandCyan font-semibold cursor-pointer hover:underline">
+                    <i class="fa-solid fa-envelope"></i> support@internationalmarket.com
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-slate-900 text-center">
+            <p>&copy; 2026 International Market Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        
+        // Crypto-only payment configuration
+        const CRYPTO_PAYMENT_DETAILS = {
+            BEP20: {
+                title: 'USDT — BEP20',
+                hint: 'Send payment to this BEP20 address.',
+                address: '0x314fac729ebcc84f304ed3b128b8d19415a6acfc'
+            },
+            TRC20: {
+                title: 'USDT — TRC20',
+                hint: 'Send payment to this TRC20 address.',
+                address: 'TKX4NR3D4Pavvy1bVQ4ALYi5w4PKsL5aPW'
+            },
+            LTC: {
+                title: 'Litecoin — LTC',
+                hint: 'Send Litecoin to this LTC address.',
+                address: 'LNsZ9xhVaWewi3bdvdrHoszrUQU8AnYEJZ'
+            },
+            BINANCE_PAY: {
+                title: 'Binance Pay — $1–$5 orders',
+                hint: 'Use this Binance Pay ID for orders from $1 to $5.',
+                address: '190364486'
+            }
+        };
+
+        let paymentSessionExpiresAt = 0;
+        let paymentSessionId = '';
+        let paymentSessionTimer = null;
+
+        function createPaymentSession() {
+            paymentSessionExpiresAt = Date.now() + (30 * 60 * 1000);
+            paymentSessionId = 'IM-' + Date.now().toString(36).toUpperCase().slice(-8);
+            const idElem = document.getElementById('paymentSessionId');
+            if (idElem) idElem.textContent = paymentSessionId;
+            updatePaymentSessionCountdown();
+            if (paymentSessionTimer) clearInterval(paymentSessionTimer);
+            paymentSessionTimer = setInterval(updatePaymentSessionCountdown, 1000);
+        }
+
+        function updatePaymentSessionCountdown() {
+            const countdown = document.getElementById('paymentCountdown');
+            const status = document.getElementById('paymentSessionStatus');
+            const submitBtn = document.getElementById('submitCryptoOrderBtn');
+            if (!countdown) return;
+
+            const remaining = Math.max(0, paymentSessionExpiresAt - Date.now());
+            const totalSeconds = Math.floor(remaining / 1000);
+            const mins = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+            const secs = String(totalSeconds % 60).padStart(2, '0');
+            countdown.textContent = `${mins}:${secs}`;
+
+            if (remaining <= 0) {
+                countdown.textContent = 'EXPIRED';
+                countdown.classList.remove('text-brandGold');
+                countdown.classList.add('text-red-400');
+                if (status) {
+                    status.className = 'mt-2.5 text-[10px] text-red-400 flex items-center gap-1.5';
+                    status.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Payment session expired. Close and reopen checkout for a new session.';
+                }
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+                if (paymentSessionTimer) {
+                    clearInterval(paymentSessionTimer);
+                    paymentSessionTimer = null;
+                }
+            } else {
+                countdown.classList.remove('text-red-400');
+                countdown.classList.add('text-brandGold');
+                if (status) {
+                    status.className = 'mt-2.5 text-[10px] text-brandEmerald flex items-center gap-1.5';
+                    status.innerHTML = '<i class="fa-solid fa-circle-check"></i> Payment session active';
+                }
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            }
+        }
+
+        function isPaymentSessionActive() {
+            return paymentSessionExpiresAt > Date.now();
+        }
+
+        function getCheckoutTotalUSD() {
+            let subtotalUSD = cart.reduce((sum, item) => sum + (item.usdPrice * item.quantity), 0);
+            return subtotalUSD;
+        }
+
+        function updateCryptoPaymentDetails() {
+            const select = document.getElementById('cryptoSelect');
+            const selected = select ? select.value : 'BEP20';
+            const details = CRYPTO_PAYMENT_DETAILS[selected];
+            if (!details) return;
+
+            const totalUSD = getCheckoutTotalUSD();
+            const binanceEligible = totalUSD >= 0.999999 && totalUSD <= 5.000001;
+            const binanceOption = select.querySelector('option[value="BINANCE_PAY"]');
+            if (binanceOption) {
+                binanceOption.disabled = !binanceEligible;
+                binanceOption.textContent = binanceEligible ? 'Binance Pay — $1–$5 orders' : 'Binance Pay — available for $1–$5 orders';
+            }
+
+            if (selected === 'BINANCE_PAY' && !binanceEligible) {
+                select.value = 'BEP20';
+                return updateCryptoPaymentDetails();
+            }
+
+            document.getElementById('cryptoPaymentTitle').textContent = details.title;
+            document.getElementById('cryptoPaymentHint').textContent = details.hint;
+            document.getElementById('cryptoPaymentAddress').textContent = details.address;
+            document.getElementById('binancePayNotice').classList.toggle('hidden', selected !== 'BINANCE_PAY');
+        }
+
+        async function copySelectedPaymentAddress() {
+            const selected = document.getElementById('cryptoSelect').value;
+            const details = CRYPTO_PAYMENT_DETAILS[selected];
+            if (!details) return;
+            try {
+                await navigator.clipboard.writeText(details.address);
+                showToast('Payment address copied');
+            } catch (e) {
+                showToast('Copy failed — please copy the address manually');
+            }
+        }
+
+        // Gemini API Key Placeholder
+        const GEMINI_API_KEY = "";
+        
+        // Fetch Helper
+        async function fetchGeminiApi(url, payload, retries = 3, delay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (response.ok) return await response.json();
+                } catch (e) {
+                    if (i === retries - 1) throw e;
+                }
+                await new Promise(r => setTimeout(r, delay * Math.pow(2, i)));
+            }
+            throw new Error('Gemini API request failed.');
+        }
+
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function pcmToWav(pcm16Data, sampleRate) {
+            const buffer = new ArrayBuffer(44 + pcm16Data.length * 2);
+            const view = new DataView(buffer);
+            const writeString = (v, offset, str) => {
+                for (let i = 0; i < str.length; i++) v.setUint8(offset + i, str.charCodeAt(i));
+            };
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + pcm16Data.length * 2, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, pcm16Data.length * 2, true);
+
+            let offset = 44;
+            for (let i = 0; i < pcm16Data.length; i++, offset += 2) {
+                view.setInt16(offset, pcm16Data[i], true);
+            }
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        // Currency Exchange Rates against USD base
+        const currencyRates = {
+            USD: { symbol: '$', rate: 1 },
+            BDT: { symbol: '৳', rate: 120 },
+            EUR: { symbol: '€', rate: 0.92 },
+            GBP: { symbol: '£', rate: 0.79 }
+        };
+
+        let currentCurrency = 'USD';
+        let currentCategoryFilter = 'All';
+        let currentSortOption = 'featured';
+
+        // Products Database
+        const products = [
+            {
+                id: 'chatgpt-plus',
+                title: 'ChatGPT Plus',
+                category: 'AI Tools',
+                badge: 'Best Seller',
+                icon: 'fa-robot text-teal-400',
+                description: 'Uncapped access to GPT-4o, DALL-E 3, Voice Mode, and custom GPTs.',
+                plans: [
+                    { name: '1 Month Access', usdPrice: 4.50 },
+                    { name: '1 Year License', usdPrice: 45.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'gemini-combo-special',
+                title: 'Gemini AI Pro Combo (18 Mo)',
+                category: 'AI Tools',
+                badge: 'Mega Combo',
+                icon: 'fa-cubes font-bold text-cyan-400',
+                description: 'Gemini AI Pro + Google One + Google Vids/Flow + 5TB Cloud Storage (18 Months).',
+                plans: [{ name: '18 Months Special Combo', usdPrice: 12.00 }],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'google-ai-gemini',
+                title: 'Google AI / Gemini Pro Standard',
+                category: 'AI Tools',
+                badge: 'Google Ecosystem',
+                icon: 'fa-sparkles text-brandGold',
+                description: 'Gemini 1.5 Pro model access with 2TB Google One cloud integration.',
+                plans: [
+                    { name: '1 Month Plan', usdPrice: 3.50 },
+                    { name: '1 Year License', usdPrice: 35.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'claude-pro',
+                title: 'Claude Pro',
+                category: 'AI Tools',
+                badge: 'Coding & Analysis',
+                icon: 'fa-brain text-amber-400',
+                description: '5x usage limit for Claude 3.5 Sonnet, long context windows & priority.',
+                plans: [{ name: '1 Month Access', usdPrice: 6.00 }],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'grok-ai',
+                title: 'Grok AI (X Premium)',
+                category: 'AI Tools',
+                badge: 'Realtime X Access',
+                icon: 'fa-xmark text-slate-100',
+                description: 'Real-time social data access, unedited answers, and X Premium status.',
+                plans: [
+                    { name: '1 Month Plan', usdPrice: 4.00 },
+                    { name: '1 Year License', usdPrice: 38.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'netflix-prem',
+                title: 'Netflix Premium 4K',
+                category: 'Streaming',
+                badge: 'Wholesale Price',
+                icon: 'fa-film text-red-500',
+                description: 'Private Ultra HD screen with full multi-device download support.',
+                plans: [{ name: '1 Month Pass', usdPrice: 3.00 }],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'youtube-premium',
+                title: 'YouTube Premium',
+                category: 'Streaming',
+                badge: 'Ad-Free + Music',
+                icon: 'fa-play text-red-600',
+                description: 'Ad-free playback, background play, YouTube Music VIP included.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 2.00 },
+                    { name: '1 Year License', usdPrice: 18.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'spotify-premium',
+                title: 'Spotify Premium',
+                category: 'Streaming',
+                badge: 'Best Value',
+                icon: 'fa-spotify text-emerald-400',
+                description: 'Unlimited ad-free music, offline downloading, and high quality audio.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 1.50 },
+                    { name: '3 Months Pass', usdPrice: 4.00 },
+                    { name: '6 Months Pass', usdPrice: 7.00 },
+                    { name: '1 Year Pass', usdPrice: 12.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'apple-music',
+                title: 'Apple Music',
+                category: 'Streaming',
+                badge: 'Lossless Audio',
+                icon: 'fa-music text-pink-500',
+                description: 'Spatial audio with Dolby Atmos, 100M+ songs, offline listening.',
+                plans: [{ name: '1 Month Access', usdPrice: 2.00 }],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'prime-video',
+                title: 'Amazon Prime Video',
+                category: 'Streaming',
+                badge: 'Prime Originals',
+                icon: 'fa-amazon text-sky-400',
+                description: 'Access to Prime Video series, movies, and Twitch Prime perks.',
+                plans: [
+                    { name: '1 Month Access', usdPrice: 2.00 },
+                    { name: '1 Year Pass', usdPrice: 15.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'disney-plus',
+                title: 'Disney+ Premium',
+                category: 'Streaming',
+                badge: '4K Marvel & Star Wars',
+                icon: 'fa-tv text-blue-500',
+                description: 'Stream Marvel, Star Wars, Pixar, Disney, and National Geographic.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 2.50 },
+                    { name: '1 Year License', usdPrice: 22.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'showmax',
+                title: 'Showmax',
+                category: 'Streaming',
+                badge: 'Live Sports',
+                icon: 'fa-circle-play text-indigo-400',
+                description: 'Hit series, local movies, and Premier League live sports streaming.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 2.50 },
+                    { name: '3 Months Pass', usdPrice: 6.00 },
+                    { name: '1 Year Pass', usdPrice: 20.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'crunchyroll',
+                title: 'Crunchyroll Mega Fan',
+                category: 'Streaming',
+                badge: 'Anime VIP',
+                icon: 'fa-mask text-orange-500',
+                description: 'Ad-free anime streams simulcast same day as Japan with offline viewing.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 2.00 },
+                    { name: '1 Year License', usdPrice: 16.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'canva-pro',
+                title: 'Canva Pro',
+                category: 'Design',
+                badge: 'Cheapest Rate',
+                icon: 'fa-palette text-cyan-300',
+                description: '100M+ premium assets, magic AI resize, background remover.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 1.00 },
+                    { name: '1 Year License', usdPrice: 4.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'capcut-pro',
+                title: 'CapCut Pro',
+                category: 'Design',
+                badge: 'Shorts VIP',
+                icon: 'fa-video text-cyan-400',
+                description: 'VIP video filters, auto-captions, cloud space, 4K export presets.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 2.50 },
+                    { name: '1 Year License', usdPrice: 18.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'adobe-cc',
+                title: 'Adobe Creative Cloud',
+                category: 'Design',
+                badge: 'All Apps Suite',
+                icon: 'fa-layer-group text-red-500',
+                description: 'Photoshop, Illustrator, Premiere Pro, After Effects + 100GB Cloud.',
+                plans: [
+                    { name: '1 Month Access', usdPrice: 8.00 },
+                    { name: '1 Year Full Key', usdPrice: 65.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'figma-pro',
+                title: 'Figma Professional',
+                category: 'Design',
+                badge: 'UI/UX Design',
+                icon: 'fa-figma text-purple-400',
+                description: 'Unlimited Figma files, team libraries, dev mode & prototyping.',
+                plans: [
+                    { name: '1 Month Plan', usdPrice: 5.00 },
+                    { name: '1 Year License', usdPrice: 40.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'envato-elements',
+                title: 'Envato Elements',
+                category: 'Design',
+                badge: 'Stock Unlimited',
+                icon: 'fa-cubes text-emerald-500',
+                description: 'Unlimited downloads of graphics, video templates, 3D assets, fonts.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 4.50 },
+                    { name: '1 Year Pass', usdPrice: 35.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'ms-365',
+                title: 'Microsoft 365 Family/Pro',
+                category: 'Productivity',
+                badge: '1TB OneDrive',
+                icon: 'fa-windows text-sky-500',
+                description: 'Word, Excel, PowerPoint, Outlook with 1TB personal cloud storage.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 2.00 },
+                    { name: '1 Year License', usdPrice: 12.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'google-one',
+                title: 'Google One Storage',
+                category: 'Productivity',
+                badge: '2TB Cloud',
+                icon: 'fa-cloud text-blue-400',
+                description: '2TB expanded cloud storage across Drive, Gmail, Photos + VPN.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 2.00 },
+                    { name: '1 Year Pass', usdPrice: 15.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'notion-plus',
+                title: 'Notion Plus / AI',
+                category: 'Productivity',
+                badge: 'Workspace VIP',
+                icon: 'fa-note-sticky text-slate-200',
+                description: 'Unlimited file uploads, database history, Notion AI writing assistant.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 3.50 },
+                    { name: '1 Year License', usdPrice: 28.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'grammarly-prem',
+                title: 'Grammarly Premium',
+                category: 'Productivity',
+                badge: 'AI Writer',
+                icon: 'fa-pen-nib text-teal-400',
+                description: 'Advanced tone detector, plagiarism checker, full sentence rewrites.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 2.50 },
+                    { name: '1 Year Pass', usdPrice: 18.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'linkedin-prem',
+                title: 'LinkedIn Premium Business',
+                category: 'Productivity',
+                badge: 'Career Boost',
+                icon: 'fa-linkedin text-blue-600',
+                description: 'InMail credits, see profile viewers, unlimited search, LinkedIn Learning.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 9.00 },
+                    { name: '1 Year Pass', usdPrice: 55.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'playstation-plus',
+                title: 'PlayStation Plus Extra',
+                category: 'Gaming',
+                badge: 'Console VIP',
+                icon: 'fa-playstation text-blue-600',
+                description: 'Online multiplayer, monthly games, cloud saves, Game Catalog access.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 5.00 },
+                    { name: '1 Year License', usdPrice: 42.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'xbox-gamepass',
+                title: 'Xbox Game Pass Ultimate',
+                category: 'Gaming',
+                badge: 'Day 1 Releases',
+                icon: 'fa-xbox text-emerald-500',
+                description: '100+ high quality games, EA Play, Cloud Gaming, Xbox Live Gold.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 4.00 },
+                    { name: '3 Months Pass', usdPrice: 11.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'duolingo-super',
+                title: 'Duolingo Super',
+                category: 'Education',
+                badge: 'Language VIP',
+                icon: 'fa-feather text-emerald-400',
+                description: 'Unlimited hearts, no ads, mistake practice, progress tracker.',
+                plans: [
+                    { name: '1 Month Pass', usdPrice: 2.00 },
+                    { name: '1 Year Pass', usdPrice: 14.00 }
+                ],
+                selectedPlanIndex: 0
+            },
+            {
+                id: 'coursera-plus',
+                title: 'Coursera Plus',
+                category: 'Education',
+                badge: '7,000+ Courses',
+                icon: 'fa-graduation-cap text-blue-500',
+                description: 'Unlimited certificates from top universities & companies like Google.',
+                plans: [
+                    { name: '1 Month Access', usdPrice: 9.00 },
+                    { name: '1 Year License', usdPrice: 75.00 }
+                ],
+                selectedPlanIndex: 0
+            }
+        ];
+
+        let cart = [];
+
+        function formatPrice(usdPrice) {
+            const curr = currencyRates[currentCurrency];
+            const converted = (usdPrice * curr.rate).toFixed(2);
+            return `${curr.symbol}${converted}`;
+        }
+
+        function sortProducts(sortVal) {
+            currentSortOption = sortVal;
+            renderProducts();
+        }
+
+        function getProductBrandVisual(product) {
+            const visuals = {
+                'chatgpt-plus': { cls: 'brand-chatgpt', icon: '', label: 'AI' },
+                'gemini-combo-special': { cls: 'brand-gemini', icon: 'fa-solid fa-sparkles', label: 'G' },
+                'google-ai-gemini': { cls: 'brand-google', icon: 'fa-brands fa-google', label: 'G' },
+                'claude-pro': { cls: 'brand-claude', icon: '', label: 'C' },
+                'grok-ai': { cls: 'brand-grok', icon: 'fa-solid fa-xmark', label: '𝕏' },
+                'netflix-prem': { cls: 'brand-netflix', icon: '', label: 'N' },
+                'youtube-premium': { cls: 'brand-youtube', icon: 'fa-brands fa-youtube', label: '' },
+                'spotify-premium': { cls: 'brand-spotify', icon: 'fa-brands fa-spotify', label: '' },
+                'apple-music': { cls: 'brand-apple', icon: 'fa-brands fa-apple', label: '' },
+                'prime-video': { cls: 'brand-amazon', icon: 'fa-brands fa-amazon', label: '' },
+                'disney-plus': { cls: 'brand-disney', icon: 'fa-solid fa-star', label: 'D+' },
+                'showmax': { cls: 'brand-showmax', icon: 'fa-solid fa-play', label: 'S' },
+                'crunchyroll': { cls: 'brand-crunchyroll', icon: 'fa-solid fa-circle-play', label: 'CR' },
+                'canva-pro': { cls: 'brand-canva', icon: '', label: 'C' },
+                'capcut-pro': { cls: 'brand-capcut', icon: 'fa-solid fa-scissors', label: 'CC' },
+                'adobe-cc': { cls: 'brand-adobe', icon: '', label: 'Ad' },
+                'figma-pro': { cls: 'brand-figma', icon: 'fa-brands fa-figma', label: 'F' },
+                'envato-elements': { cls: 'brand-envato', icon: '', label: 'E' },
+                'ms-365': { cls: 'brand-microsoft', icon: 'fa-brands fa-microsoft', label: '' },
+                'google-one': { cls: 'brand-google', icon: 'fa-brands fa-google', label: 'G1' },
+                'notion-plus': { cls: 'brand-notion', icon: '', label: 'N' },
+                'grammarly-prem': { cls: 'brand-grammarly', icon: '', label: 'G' },
+                'linkedin-prem': { cls: 'brand-linkedin', icon: 'fa-brands fa-linkedin-in', label: '' },
+                'playstation-plus': { cls: 'brand-playstation', icon: 'fa-brands fa-playstation', label: 'PS' },
+                'xbox-gamepass': { cls: 'brand-xbox', icon: 'fa-brands fa-xbox', label: '' },
+                'duolingo-super': { cls: 'brand-duolingo', icon: '', label: 'D' },
+                'coursera-plus': { cls: 'brand-coursera', icon: 'fa-solid fa-graduation-cap', label: 'Co' },
+                'shopify-premium': { cls: 'brand-shopify', icon: 'fa-brands fa-shopify', label: 'S' },
+                'kimi-premium': { cls: 'brand-kimi', icon: 'fa-solid fa-k', label: 'K' }
+            };
+            return visuals[product.id] || { cls: 'brand-grok', icon: '', label: product.title.split(/\s+/).slice(0,2).map(x => x[0]).join('').toUpperCase() };
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            const searchQuery = (document.getElementById('searchInput').value || '').toLowerCase();
+            
+            grid.innerHTML = '';
+            
+            let filtered = products.filter(p => {
+                const matchesCategory = currentCategoryFilter === 'All' || p.category === currentCategoryFilter;
+                const matchesSearch = p.title.toLowerCase().includes(searchQuery) || p.description.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            // Sorting logic
+            if (currentSortOption === 'price-asc') {
+                filtered.sort((a, b) => a.plans[a.selectedPlanIndex].usdPrice - b.plans[b.selectedPlanIndex].usdPrice);
+            } else if (currentSortOption === 'price-desc') {
+                filtered.sort((a, b) => b.plans[b.selectedPlanIndex].usdPrice - a.plans[a.selectedPlanIndex].usdPrice);
+            } else if (currentSortOption === 'name-asc') {
+                filtered.sort((a, b) => a.title.localeCompare(b.title));
+            }
+
+            document.getElementById('productCount').textContent = filtered.length;
+            
+            if (filtered.length === 0) {
+                document.getElementById('emptyState').classList.remove('hidden');
+            } else {
+                document.getElementById('emptyState').classList.add('hidden');
+            }
+
+            filtered.forEach(product => {
+                const selectedPlan = product.plans[product.selectedPlanIndex];
+                
+                let planSelectorHtml = '';
+                if (product.plans.length > 1) {
+                    planSelectorHtml = `
+                        <div class="mb-4">
+                            <label class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider block mb-1">Duration</label>
+                            <select onchange="updateProductPlan('${product.id}', this.value)" class="w-full bg-slate-900 border border-slate-800 text-xs text-gray-200 rounded-xl p-2 focus:outline-none focus:border-brandCyan">
+                                ${product.plans.map((plan, idx) => `
+                                    <option value="${idx}" ${idx === product.selectedPlanIndex ? 'selected' : ''}>
+                                        ${plan.name} - ${formatPrice(plan.usdPrice)}
+                                    </option>
+                                `).join('')}
+                            </select>
+                        </div>
+                    `;
+                } else {
+                    planSelectorHtml = `
+                        <div class="mb-4 text-xs text-brandCyan font-semibold bg-brandCyan/10 border border-brandCyan/20 py-1 px-2.5 rounded-lg inline-block">
+                            ${selectedPlan.name}
+                        </div>
+                    `;
+                }
+
+                const cardHtml = `
+                    <div class="glass-card rounded-2xl p-5 border border-slate-800/80 hover:border-brandCyan/50 transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-start justify-between gap-3 mb-4">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    ${(() => { const brand = getProductBrandVisual(product); return `<div class="service-brand-logo ${brand.cls}"><span class="brand-glyph">${brand.icon ? `<i class="${brand.icon}"></i>` : brand.label}</span><span class="absolute bottom-1 right-1 w-1.5 h-1.5 rounded-full bg-white/90 shadow-[0_0_8px_rgba(255,255,255,.8)]"></span></div>`; })()}
+                                    <div class="min-w-0">
+                                        <div class="flex flex-wrap items-center gap-1.5 mb-1.5">
+                                            <span class="text-[8px] uppercase tracking-[0.18em] font-black px-2 py-0.5 rounded-full bg-brandCyan/10 border border-brandCyan/30 text-brandCyan">Premium</span>
+                                            <span class="text-[8px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full bg-slate-900 border border-slate-800 text-brandGold">${product.badge}</span>
+                                        </div>
+                                        <h3 class="text-base font-extrabold text-white leading-tight">${product.title}</h3>
+                                    </div>
+                                </div>
+                                <button onclick="playProductTtsPitch('${product.id}')" title="Listen to AI Pitch" class="shrink-0 text-xs bg-slate-900 hover:bg-brandCyan/20 hover:text-brandCyan border border-slate-800 p-1.5 rounded-lg text-gray-400 transition">
+                                    <i class="fa-solid fa-volume-high text-brandCyan"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-3">${product.description}</p>
+                            
+                            ${planSelectorHtml}
+                        </div>
+
+                        <div>
+                            <div class="flex items-baseline justify-between pt-2.5 border-t border-slate-800/80 mb-3">
+                                <span class="text-[11px] text-gray-500 font-medium">Wholesale Rate</span>
+                                <span class="text-xl font-black text-white">${formatPrice(selectedPlan.usdPrice)}</span>
+                            </div>
+
+                            <div class="grid grid-cols-5 gap-2">
+                                <button id="addBtn-${product.id}" onclick="addToCart('${product.id}')" class="col-span-4 bg-slate-900 hover:bg-brandCyan hover:text-gray-950 border border-brandCyan/40 text-brandCyan font-bold py-2.5 rounded-xl text-xs transition duration-300 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                    <span>Add to Cart</span>
+                                </button>
+                                <button onclick="quickCompareProduct('${product.id}')" title="Compare Product" class="col-span-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-gray-300 hover:text-white rounded-xl transition flex items-center justify-center">
+                                    <i class="fa-solid fa-code-compare text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHtml;
+            });
+        }
+
+        function toggleAiCopilot() {
+            const drawer = document.getElementById('aiCopilotDrawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        function sendQuickPrompt(promptText) {
+            document.getElementById('aiChatInput').value = promptText;
+            handleAiChatSubmit(new Event('submit'));
+        }
+
+        async function handleAiChatSubmit(e) {
+            if (e) e.preventDefault();
+            const input = document.getElementById('aiChatInput');
+            const userMsg = input.value.trim();
+            if (!userMsg) return;
+
+            const chatContainer = document.getElementById('aiChatContainer');
+
+            chatContainer.innerHTML += `
+                <div class="bg-brandCyan/10 border border-brandCyan/30 rounded-2xl p-3 text-xs text-brandCyan text-right ml-8 leading-relaxed">
+                    <div class="font-bold mb-0.5">You</div>
+                    ${userMsg}
+                </div>
+            `;
+            input.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            const loadingId = 'ai-loading-' + Date.now();
+            chatContainer.innerHTML += `
+                <div id="${loadingId}" class="bg-slate-900 border border-slate-800 rounded-2xl p-3 text-xs text-gray-400 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-notch animate-spin text-brandCyan"></i>
+                    <span>Gemini AI is generating custom recommendation...</span>
+                </div>
+            `;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            try {
+                const systemPrompt = `You are a digital subscription advisor for "International Market".
+Available products: ${JSON.stringify(products.map(p => ({ id: p.id, title: p.title, category: p.category, startingUsdPrice: p.plans[0].usdPrice, desc: p.description })))}
+Provide helpful advice in under 120 words. Always append JSON at the end like:
+\`\`\`json
+{ "recommended_product_ids": ["chatgpt-plus"] }
+\`\`\``;
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+                const payload = {
+                    contents: [{ parts: [{ text: userMsg }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
+
+                const data = await fetchGeminiApi(apiUrl, payload);
+                const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to complete AI lookup.";
+
+                const loadElem = document.getElementById(loadingId);
+                if (loadElem) loadElem.remove();
+
+                let recIds = [];
+                const jsonMatch = replyText.match(/```json\s*([\s\S]*?)\s*```/);
+                let cleanReply = replyText.replace(/```json[\s\S]*?```/g, '').trim();
+
+                if (jsonMatch && jsonMatch[1]) {
+                    try { recIds = JSON.parse(jsonMatch[1]).recommended_product_ids || []; } catch (err) {}
+                }
+
+                let recommendationCardsHtml = '';
+                if (recIds.length > 0) {
+                    recommendationCardsHtml = `<div class="mt-2.5 pt-2.5 border-t border-slate-800 space-y-2">`;
+                    recIds.forEach(id => {
+                        const match = products.find(p => p.id === id);
+                        if (match) {
+                            recommendationCardsHtml += `
+                                <div class="bg-slate-950 p-2 rounded-xl border border-slate-800 flex items-center justify-between">
+                                    <div>
+                                        <div class="font-bold text-white text-xs">${match.title}</div>
+                                        <div class="text-[10px] text-brandCyan">${formatPrice(match.plans[0].usdPrice)}</div>
+                                    </div>
+                                    <button onclick="addToCart('${match.id}')" class="bg-brandCyan text-gray-950 font-bold text-[10px] px-2 py-1 rounded-lg hover:bg-brandCyanHover transition">
+                                        + Add
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    });
+                    recommendationCardsHtml += `</div>`;
+                }
+
+                chatContainer.innerHTML += `
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 text-xs text-gray-300 leading-relaxed">
+                        <div class="flex items-center gap-2 text-brandCyan font-bold mb-1">
+                            <i class="fa-solid fa-robot"></i> AI Advisor
+                        </div>
+                        <div>${cleanReply.replace(/\n/g, '<br>')}</div>
+                        ${recommendationCardsHtml}
+                    </div>
+                `;
+            } catch (err) {
+                const loadElem = document.getElementById(loadingId);
+                if (loadElem) loadElem.remove();
+                chatContainer.innerHTML += `
+                    <div class="bg-red-950/40 border border-red-800 rounded-2xl p-3 text-xs text-red-300">
+                        Error connecting to AI service.
+                    </div>
+                `;
+            }
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        async function playProductTtsPitch(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            showToast(`Generating AI Audio Pitch for ${product.title}...`);
+
+            const promptText = `Say enthusiastically in 2 short sentences: "Get instant digital access to ${product.title} for only ${formatPrice(product.plans[0].usdPrice)}! ${product.description}"`;
+
+            const payload = {
+                contents: [{ parts: [{ text: promptText }] }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Puck" } } }
+                },
+                model: "gemini-2.5-flash-preview-tts"
+            };
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${GEMINI_API_KEY}`;
+
+            try {
+                const result = await fetchGeminiApi(apiUrl, payload);
+                const part = result?.candidates?.[0]?.content?.parts?.[0];
+                const audioData = part?.inlineData?.data;
+                const mimeType = part?.inlineData?.mimeType;
+
+                if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                    const sampleRateMatch = mimeType.match(/rate=(\d+)/);
+                    const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 24000;
+
+                    const pcmBuffer = base64ToArrayBuffer(audioData);
+                    const pcm16 = new Int16Array(pcmBuffer);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    const audioUrl = URL.createObjectURL(wavBlob);
+
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                    showToast(`🔊 Playing Audio Pitch: ${product.title}`);
+                } else {
+                    showToast(`Unable to generate audio right now.`);
+                }
+            } catch (e) {
+                showToast(`Audio pitch service temporarily offline.`);
+            }
+        }
+
+        function populateCompareOptions() {
+            const selectA = document.getElementById('compareProductA');
+            const selectB = document.getElementById('compareProductB');
+            selectA.innerHTML = '';
+            selectB.innerHTML = '';
+
+            products.forEach((p, index) => {
+                selectA.innerHTML += `<option value="${p.id}" ${index === 0 ? 'selected' : ''}>${p.title}</option>`;
+                selectB.innerHTML += `<option value="${p.id}" ${index === 1 ? 'selected' : ''}>${p.title}</option>`;
+            });
+        }
+
+        function openCompareModal() {
+            populateCompareOptions();
+            document.getElementById('compareModal').classList.remove('hidden');
+        }
+
+        function closeCompareModal() {
+            document.getElementById('compareModal').classList.add('hidden');
+        }
+
+        function quickCompareProduct(productId) {
+            openCompareModal();
+            document.getElementById('compareProductA').value = productId;
+        }
+
+        async function runAiComparison() {
+            const idA = document.getElementById('compareProductA').value;
+            const idB = document.getElementById('compareProductB').value;
+
+            if (idA === idB) {
+                showToast("Select two different products to compare!");
+                return;
+            }
+
+            const pA = products.find(p => p.id === idA);
+            const pB = products.find(p => p.id === idB);
+
+            const resultBox = document.getElementById('compareResultContainer');
+            const btn = document.getElementById('btnRunCompare');
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Analyzing...`;
+            resultBox.innerHTML = `<div class="text-center text-brandCyan py-6"><i class="fa-solid fa-brain text-2xl animate-pulse mb-2"></i><p>Generating comparative analysis...</p></div>`;
+
+            const prompt = `Compare these two digital subscriptions:
+1. ${pA.title}: ${pA.description} ($${pA.plans[0].usdPrice})
+2. ${pB.title}: ${pB.description} ($${pB.plans[0].usdPrice})
+Provide brief markdown analysis covering Pros, Workflow Fit, and Value.`;
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+            const payload = { contents: [{ parts: [{ text: prompt }] }] };
+
+            try {
+                const res = await fetchGeminiApi(apiUrl, payload);
+                const text = res.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to generate comparison.";
+
+                resultBox.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="font-bold text-xs text-brandCyan border-b border-slate-800 pb-1">${pA.title} vs ${pB.title}</div>
+                        <div class="leading-relaxed text-gray-200">${text.replace(/###/g, '').replace(/\*\*(.*?)\*\*/g, '<strong class="text-brandCyan">$1</strong>').replace(/\n/g, '<br>')}</div>
+                    </div>
+                `;
+            } catch (err) {
+                resultBox.innerHTML = `<div class="text-red-400 text-center py-4">Failed to generate AI comparison.</div>`;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `Generate AI Comparison Analysis`;
+            }
+        }
+
+        function openGiftCardModal() { document.getElementById('giftCardModal').classList.remove('hidden'); }
+        function closeGiftCardModal() { document.getElementById('giftCardModal').classList.add('hidden'); }
+
+        async function generateAiGiftCard() {
+            const theme = document.getElementById('giftTheme').value.trim() || "Gold Cyberpunk VIP Subscription Pass";
+            const message = document.getElementById('giftMessage').value.trim() || "International Market Gift Pass";
+
+            const preview = document.getElementById('giftCardPreview');
+            const btn = document.getElementById('btnGenerateGift');
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Generating Card...`;
+            preview.innerHTML = `<div class="text-brandCyan py-6 text-xs"><i class="fa-solid fa-wand-magic-sparkles text-2xl animate-spin mb-2"></i><p>Designing card using Gemini Image Model...</p></div>`;
+
+            const prompt = `A luxury digital gift voucher card titled "${message}". Theme: ${theme}, dark futuristic neon gold accents.`;
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: { responseModalities: ['TEXT', 'IMAGE'] }
+            };
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-image:generateContent?key=${GEMINI_API_KEY}`;
+
+            try {
+                const res = await fetchGeminiApi(apiUrl, payload);
+                const part = res?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+
+                if (part && part.inlineData && part.inlineData.data) {
+                    const imgUrl = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+                    preview.innerHTML = `
+                        <div class="space-y-2 w-full">
+                            <img src="${imgUrl}" alt="VIP Gift Card" class="w-full rounded-xl border border-slate-700 shadow-xl object-cover">
+                            <a href="${imgUrl}" download="VIP_Gift_Card.png" class="inline-block bg-brandCyan hover:bg-brandCyanHover text-gray-950 font-bold px-3 py-1.5 rounded-xl text-xs transition">
+                                <i class="fa-solid fa-download mr-1"></i> Download Gift Card
+                            </a>
+                        </div>
+                    `;
+                } else {
+                    preview.innerHTML = `<span class="text-xs text-amber-400">Card generated without image output. Try another prompt.</span>`;
+                }
+            } catch (err) {
+                preview.innerHTML = `<span class="text-xs text-red-400">Failed to generate gift card.</span>`;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `🎨 Generate AI Gift Card`;
+            }
+        }
+
+        function openTrackOrderModal() { document.getElementById('trackOrderModal').classList.remove('hidden'); }
+        function closeTrackOrderModal() { document.getElementById('trackOrderModal').classList.add('hidden'); }
+
+        function performOrderLookup() {
+            const val = document.getElementById('trackInput').value.trim();
+            const res = document.getElementById('trackResult');
+            if (!val) {
+                showToast("Please enter an Order ID or email address");
+                return;
+            }
+
+            res.classList.remove('hidden');
+            res.innerHTML = `
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between font-bold text-white">
+                        <span>Status: <span class="text-brandEmerald">DISPATCHED</span></span>
+                        <span class="text-[10px] text-gray-400">ID: ORD-${Math.floor(10000 + Math.random() * 90000)}</span>
+                    </div>
+                    <div class="text-[11px] text-gray-300 border-t border-slate-800 pt-2">
+                        Key/Credentials sent to: <strong class="text-brandCyan">${val.includes('@') ? val : 'user@domain.com'}</strong>
+                    </div>
+                    <div class="bg-slate-900 p-2 rounded font-mono text-[10px] text-brandGold break-all">
+                        KEY: INTL-2026-VIP-PASS-ACTIVE-88321
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleFaq(btn) {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('i');
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        function updateProductPlan(productId, planIdx) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                product.selectedPlanIndex = parseInt(planIdx);
+                renderProducts();
+            }
+        }
+
+        function changeCurrency(curr) {
+            currentCurrency = curr;
+            renderProducts();
+            updateCartUI();
+        }
+
+        function filterCategory(category, btnElement) {
+            currentCategoryFilter = category;
+            
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-brandCyan', 'text-gray-950', 'font-bold');
+                btn.classList.add('bg-slate-900', 'text-gray-300');
+            });
+
+            btnElement.classList.remove('bg-slate-900', 'text-gray-300');
+            btnElement.classList.add('bg-brandCyan', 'text-gray-950', 'font-bold');
+
+            renderProducts();
+        }
+
+        function filterProducts() { renderProducts(); }
+        function syncMobileSearch() {
+            const val = document.getElementById('mobileSearchInput').value;
+            document.getElementById('searchInput').value = val;
+            renderProducts();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('mobileSearchInput').value = '';
+            currentCategoryFilter = 'All';
+            renderProducts();
+        }
+
+        function animateCartFeedback(productId, totalCount, totalUSD) {
+            const badge = document.getElementById('cartBadge');
+            const mobileBadge = document.getElementById('mobileCartBadge');
+            const cartButtons = [document.querySelector('[aria-label="Open Cart"]')];
+            if (badge) { badge.classList.remove('cart-badge-pulse'); void badge.offsetWidth; badge.classList.add('cart-badge-pulse'); }
+            if (mobileBadge) { mobileBadge.classList.remove('cart-badge-pulse'); void mobileBadge.offsetWidth; mobileBadge.classList.add('cart-badge-pulse'); }
+            cartButtons.forEach(btn => {
+                if (!btn) return;
+                btn.classList.remove('cart-button-glow');
+                void btn.offsetWidth;
+                btn.classList.add('cart-button-glow');
+            });
+
+            const addBtn = document.getElementById(`addBtn-${productId}`);
+            if (addBtn) {
+                const original = addBtn.innerHTML;
+                addBtn.classList.add('add-to-cart-added');
+                addBtn.innerHTML = '<i class="fa-solid fa-check"></i><span>Added to Cart</span>';
+                setTimeout(() => {
+                    if (document.getElementById(`addBtn-${productId}`) === addBtn) {
+                        addBtn.classList.remove('add-to-cart-added');
+                        addBtn.innerHTML = original;
+                    }
+                }, 1100);
+            }
+
+            showToast(`Added to cart • ${totalCount} item${totalCount === 1 ? '' : 's'} • Payable ${formatPrice(totalUSD)}`);
+        }
+
+        function updateCartPaymentGuide(totalUSD) {
+            const guide = document.getElementById('cartPaymentGuideText');
+            if (!guide) return;
+            if (totalUSD <= 0) {
+                guide.textContent = 'Add a subscription to see your exact payable amount. Then choose the available payment method at secure checkout.';
+                return;
+            }
+            if (totalUSD <= 5.000001) {
+                guide.textContent = `Payable now: ${formatPrice(totalUSD)}. For orders from $1–$5, Binance Pay is available; wallet options are also shown at checkout.`;
+            } else {
+                guide.textContent = `Payable now: ${formatPrice(totalUSD)}. For orders above $5, use the available BEP20, TRC20 or LTC wallet option at checkout.`;
+            }
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const selectedPlan = product.plans[product.selectedPlanIndex];
+            const cartItemId = `${product.id}-${product.selectedPlanIndex}`;
+
+            const existing = cart.find(item => item.cartItemId === cartItemId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    cartItemId: cartItemId,
+                    id: product.id,
+                    title: product.title,
+                    planName: selectedPlan.name,
+                    usdPrice: selectedPlan.usdPrice,
+                    quantity: 1
+                });
+            }
+
+            updateCartUI();
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalUSD = cart.reduce((sum, item) => sum + (item.usdPrice * item.quantity), 0);
+            animateCartFeedback(productId, totalCount, totalUSD);
+        }
+
+        function updateQuantity(cartItemId, delta) {
+            const item = cart.find(i => i.cartItemId === cartItemId);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.cartItemId !== cartItemId);
+                }
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(cartItemId) {
+            cart = cart.filter(i => i.cartItemId !== cartItemId);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cartItemsContainer');
+            const badge = document.getElementById('cartBadge');
+            const mobileBadge = document.getElementById('mobileCartBadge');
+            const cartHeaderCount = document.getElementById('cartHeaderCount');
+            const subtotalElem = document.getElementById('cartSubtotal');
+            const totalElem = document.getElementById('cartTotal');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (cartHeaderCount) {
+                cartHeaderCount.textContent = totalCount;
+                cartHeaderCount.classList.toggle('hidden', totalCount === 0);
+            }
+
+            if (totalCount > 0) {
+                badge.textContent = totalCount;
+                badge.classList.remove('hidden');
+                mobileBadge.textContent = totalCount;
+                mobileBadge.classList.remove('hidden');
+                checkoutBtn.removeAttribute('disabled');
+            } else {
+                badge.classList.add('hidden');
+                mobileBadge.classList.add('hidden');
+                checkoutBtn.setAttribute('disabled', 'true');
+            }
+
+            let subtotalUSD = 0;
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <i class="fa-solid fa-cart-flatbed text-4xl mb-3"></i>
+                        <p class="text-xs">Your cart is empty</p>
+                    </div>
+                `;
+            } else {
+                cart.forEach(item => {
+                    const itemTotalUSD = item.usdPrice * item.quantity;
+                    subtotalUSD += itemTotalUSD;
+
+                    container.innerHTML += `
+                        <div class="cart-item-added bg-slate-900 border border-slate-800 rounded-xl p-3.5 flex items-center justify-between">
+                            <div>
+                                <h4 class="text-xs font-bold text-white">${item.title}</h4>
+                                <div class="text-[10px] text-brandCyan">${item.planName}</div>
+                                <div class="text-[11px] text-gray-400 mt-0.5">${formatPrice(item.usdPrice)} each</div>
+                            </div>
+                            
+                            <div class="flex items-center gap-2.5">
+                                <div class="flex items-center border border-slate-800 rounded-lg bg-slate-950">
+                                    <button onclick="updateQuantity('${item.cartItemId}', -1)" class="px-2 py-0.5 text-gray-400 hover:text-white text-xs">-</button>
+                                    <span class="px-2 text-xs font-bold text-white">${item.quantity}</span>
+                                    <button onclick="updateQuantity('${item.cartItemId}', 1)" class="px-2 py-0.5 text-gray-400 hover:text-white text-xs">+</button>
+                                </div>
+                                <button onclick="removeFromCart('${item.cartItemId}')" class="text-gray-500 hover:text-red-400 p-1">
+                                    <i class="fa-solid fa-trash-can text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            let totalUSD = subtotalUSD;
+
+            subtotalElem.textContent = formatPrice(subtotalUSD);
+            totalElem.textContent = formatPrice(totalUSD);
+            document.getElementById('checkoutTotal').textContent = formatPrice(totalUSD);
+            updateCartPaymentGuide(totalUSD);
+            if (document.getElementById('cryptoSelect')) updateCryptoPaymentDetails();
+        }
+
+        function toggleCartDrawer() {
+            document.getElementById('cartDrawer').classList.toggle('hidden');
+        }
+
+        function setCheckoutLocked(locked) {
+            const closeBtn = document.getElementById('checkoutCloseBtn');
+            const modal = document.getElementById('checkoutModal');
+            if (closeBtn) {
+                closeBtn.disabled = locked;
+                closeBtn.className = locked
+                    ? 'absolute top-4 right-4 text-gray-500 cursor-not-allowed'
+                    : 'absolute top-4 right-4 text-gray-400 hover:text-white';
+            }
+            if (modal) modal.dataset.paymentLocked = locked ? 'true' : 'false';
+        }
+
+        function openCheckoutModal() {
+            if (cart.length === 0) return;
+            toggleCartDrawer();
+            document.getElementById('checkoutModal').classList.remove('hidden');
+            if (!isPaymentSessionActive()) createPaymentSession();
+            const panel = document.getElementById('merchantConfirmationPanel');
+            if (panel) panel.classList.add('hidden');
+            const submitBtn = document.getElementById('submitCryptoOrderBtn');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+            setCheckoutLocked(true);
+            updateCryptoPaymentDetails();
+        }
+
+        function closeCheckoutModal(force = false) {
+            const modal = document.getElementById('checkoutModal');
+            if (!modal) return;
+            if (!force && modal.dataset.paymentLocked === 'true') {
+                showToast('Please submit payment for confirmation before closing checkout.');
+                return;
+            }
+            modal.classList.add('hidden');
+        }
+
+        function switchPaymentMethod(method) {
+            if (method === 'crypto') updateCryptoPaymentDetails();
+        }
+
+        function processOrder(type) {
+            if (type !== 'Crypto') return;
+
+            if (!isPaymentSessionActive()) {
+                showToast('Payment session expired. Please reopen checkout.');
+                updatePaymentSessionCountdown();
+                return;
+            }
+
+            const emailInput = document.getElementById('cryptoEmail');
+            const selected = document.getElementById('cryptoSelect').value;
+            const totalUSD = getCheckoutTotalUSD();
+
+            if (!emailInput.value || !emailInput.value.includes('@')) {
+                showToast('Please enter a valid delivery email');
+                emailInput.focus();
+                return;
+            }
+
+            const binanceEligible = totalUSD >= 0.999999 && totalUSD <= 5.000001;
+            if (selected === 'BINANCE_PAY' && !binanceEligible) {
+                showToast('Binance Pay is available only for $1–$5 orders.');
+                updateCryptoPaymentDetails();
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitCryptoOrderBtn');
+            const panel = document.getElementById('merchantConfirmationPanel');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                submitBtn.innerHTML = '<i class="fa-solid fa-hourglass-half mr-1"></i> Payment Submitted — Awaiting Confirmation';
+            }
+            if (panel) panel.classList.remove('hidden');
+            showToast('Payment proof submitted. Waiting for merchant confirmation.');
+        }
+
+        function merchantConfirmPayment() {
+            // Front-end confirmation only. A real merchant/admin confirmation should be handled by a secure backend.
+            setCheckoutLocked(false);
+            closeCheckoutModal(true);
+            cart = [];
+            updateCartUI();
+            if (paymentSessionTimer) {
+                clearInterval(paymentSessionTimer);
+                paymentSessionTimer = null;
+            }
+            paymentSessionExpiresAt = 0;
+            showToast('Payment confirmed. Order is ready for fulfillment.');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        // Countdown Timer for Top Banner
+        function startFlashTimer() {
+            let seconds = 17999;
+            const timerElem = document.getElementById('flashTimer');
+            setInterval(() => {
+                if (seconds <= 0) seconds = 17999;
+                seconds--;
+                const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+                const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+                const secs = String(seconds % 60).padStart(2, '0');
+                if (timerElem) timerElem.textContent = `${hrs}:${mins}:${secs}`;
+            }, 1000);
+        }
+
+        // Live Social Proof Sales Popup Simulation
+        const mockPurchases = [
+            { name: "Someone from Bangladesh", product: "ChatGPT Plus (1m ago)" },
+            { name: "User from Germany", product: "Canva Pro Year Pass (3m ago)" },
+            { name: "Someone from USA", product: "YouTube Premium (Just now)" },
+            { name: "User from UK", product: "Gemini AI Pro Combo (5m ago)" },
+            { name: "Reseller from UAE", product: "Adobe CC All Apps Key (2m ago)" }
+        ];
+
+        function triggerSocialProof() {
+            const toast = document.getElementById('socialProofToast');
+            const title = document.getElementById('socialProofTitle');
+            const msg = document.getElementById('socialProofMsg');
+
+            setInterval(() => {
+                const randomSample = mockPurchases[Math.floor(Math.random() * mockPurchases.length)];
+                title.textContent = randomSample.name;
+                msg.textContent = `Purchased ${randomSample.product}`;
+
+                toast.classList.remove('-translate-x-full', 'opacity-0');
+                toast.classList.add('translate-x-0', 'opacity-100');
+
+                setTimeout(() => {
+                    toast.classList.remove('translate-x-0', 'opacity-100');
+                    toast.classList.add('-translate-x-full', 'opacity-0');
+                }, 4000);
+            }, 16000);
+        }
+
+        window.onload = function() {
+            renderProducts();
+            updateCartUI();
+            startFlashTimer();
+            setTimeout(triggerSocialProof, 4000);
+        };
+    </script>
+</body>
+</html>
